@@ -23,9 +23,9 @@ df = pd.read_csv('sentiments_grouped.csv')
 nlp = spacy.load('en_core_web_md')
 
 # process a sentence using the model
-# categories = ["negative", "positive", "neutral", "angry", "happy", "sad", "fearful", "disgusted", "surprised"]
 categories = ["negative", "positive", "happy", "fearful", "surprised"]
-test_word = nlp("wow")
+test_word = nlp(row['processed_sentiment'])
+test_word_vector = test_word.vector
 
 # Get the vector for each word
 word_vectors = [nlp(word).vector for word in categories]
@@ -45,7 +45,7 @@ def find_most_similar_category(row):
         return most_similar_category
 
 df['sentiment_group'] = df.apply(find_most_similar_category, axis=1)
-df.to_csv('sentiments_grouped.csv', index=False)
+df.to_csv('sentiments_grouped2.csv', index=False)
 
 print(df['sentiment_group'].value_counts(dropna=False))
 
